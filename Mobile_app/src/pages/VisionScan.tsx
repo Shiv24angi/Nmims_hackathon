@@ -148,36 +148,53 @@ const VisionScan = () => {
       If no food is detected, return {"error": "No food detected"}.`;
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  { text: prompt },
-                  {
-                    inline_data: {
-                      mime_type: "image/jpeg",
-                      data: base64Image,
-                    },
-                  },
-                ],
-              },
+            contents: [{
+              parts: [
+                { text: prompt },
+                { inline_data: { mime_type: "image/jpeg", data: base64Image } }
+              ]
+            }],
+            safetySettings: [
+              { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+              { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+              { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+              { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
             ],
           }),
         }
       );
 
       const data = await response.json();
+      console.log("Gemini API Full Response:", data);
+
+      if (data.error) {
+        throw new Error(`API Error: ${data.error.message}`);
+      }
+
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
       
-      if (!text) throw new Error("Could not parse AI response");
+      if (!text) {
+        const finishReason = data.candidates?.[0]?.finishReason;
+        if (finishReason === "SAFETY") {
+           throw new Error("This image was flagged by safety filters. Please try another photo.");
+        }
+        throw new Error("The AI returned an empty response. Please try again.");
+      }
       
       // Clean potential markdown code blocks
       const cleanJson = text.replace(/```json|```/g, "").trim();
-      const parsed = JSON.parse(cleanJson);
+      const jsonMatch = cleanJson.match(/\{[\s\S]*\}/);
+      
+      if (!jsonMatch) {
+         throw new Error("No nutritional data found in response");
+      }
+
+      const parsed = JSON.parse(jsonMatch[0]);
 
       if (parsed.error) {
         toast({
@@ -194,7 +211,7 @@ const VisionScan = () => {
       console.error("AI Analysis error:", err);
       toast({
         title: "Analysis failed",
-        description: "There was an error connecting to the AI engine.",
+        description: err.message || "There was an error connecting to the AI engine.",
         variant: "destructive",
       });
     } finally {
