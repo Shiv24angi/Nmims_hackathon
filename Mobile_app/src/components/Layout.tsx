@@ -297,7 +297,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   };
 
   const handleInviteFriends = () => {
-    const text = `Join the Campus Health Portal. Track your nutrition, check the cafe menu, and unlock student perks. 🎓
+    const text = `Join the Nutrisense Student Portal. Track your nutrition, check the cafe menu, and unlock student perks. 🎓
  
 Join the community: https://fitnutt.netlify.app
  
@@ -389,7 +389,7 @@ Android - Browser Menu > Add to Homescreen > Install`;
               className="font-bold text-lg text-foreground uppercase tracking-tight"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Student Portal
+              Nutrisense
             </span>
           </div>
           <button
@@ -476,7 +476,7 @@ Android - Browser Menu > Add to Homescreen > Install`;
                 onClick={() => setEasterEggMessage(null)}
                 className="w-full h-12 rounded-2xl font-black uppercase tracking-widest text-sm shadow-lg shadow-primary/20"
               >
-                LIGHT WEIGHT BABY! 🦾
+                ACADEMIC EXCELLENCE! 🎓
               </Button>
             </div>
           </div>

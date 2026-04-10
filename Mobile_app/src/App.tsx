@@ -39,9 +39,9 @@ const GlobalSplash = ({ children }: { children: React.ReactNode }) => {
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isUnmounted, setIsUnmounted] = useState(false);
 
-  // Normal splash timer (2.5s)
+  // Normal splash timer (0.8s)
   useEffect(() => {
-    const timer = setTimeout(() => setMinSplashDone(true), 2500);
+    const timer = setTimeout(() => setMinSplashDone(true), 800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -86,7 +86,7 @@ const GlobalSplash = ({ children }: { children: React.ReactNode }) => {
                 className="text-2xl font-black text-foreground uppercase tracking-tight"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
-                Nutri Sense
+                <span className="font-bold text-xs text-foreground uppercase tracking-widest">Nutrisense</span>
               </h1>
               <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase opacity-70">Initializing Health Ecosystem</p>
             </div>
