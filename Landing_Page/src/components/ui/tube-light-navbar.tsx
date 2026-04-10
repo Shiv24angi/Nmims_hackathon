@@ -30,6 +30,36 @@ export function NavBar({ items, className }: NavBarProps) {
         return () => window.removeEventListener("resize", handleResize)
     }, [])
 
+    useEffect(() => {
+        const handleScroll = () => {
+            let currentStr = items[0].name;
+            for (let i = items.length - 1; i >= 0; i--) {
+                const item = items[i];
+                if (item.url === '#') {
+                    if (window.scrollY < 300) {
+                        currentStr = item.name;
+                        break;
+                    }
+                    continue;
+                }
+                const section = document.querySelector(item.url) as HTMLElement;
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    // If the section is at least halfway up the viewport
+                    if (rect.top <= window.innerHeight / 2) {
+                        currentStr = item.name;
+                        break;
+                    }
+                }
+            }
+            setActiveTab(currentStr);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        handleScroll(); // initialize
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [items]);
+
     return (
         <div
             className={cn(

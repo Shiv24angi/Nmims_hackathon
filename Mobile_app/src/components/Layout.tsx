@@ -111,6 +111,40 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     }
   }, [isGuest]);
 
+  // Real-time Order Notifications
+  useEffect(() => {
+    if (!user) return;
+    
+    const orderSubscription = supabase
+      .channel('public:food_orders_updates')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'food_orders',
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          if (payload.new && payload.new.status && payload.old.status !== payload.new.status) {
+            toast({
+              title: "🍜 Order Update!",
+              description: `Your cafeteria order status is now: ${payload.new.status.toUpperCase()}`,
+            });
+          }
+        }
+      )
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          console.log("Listening for real-time order updates.");
+        }
+      });
+
+    return () => {
+      supabase.removeChannel(orderSubscription);
+    };
+  }, [user, toast]);
+
   const totals = entries.reduce(
     (acc, entry) => ({
       calories: acc.calories + (entry.calories || 0) * entry.quantity,
