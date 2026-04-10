@@ -305,9 +305,18 @@ const Payment = () => {
           </div>
         </div>
 
+        {paymentMethod === 'card' && totalAmount > 0 && totalAmount < 50 && (
+          <div className="bg-destructive/10 border border-destructive/20 p-3 rounded-xl flex items-center justify-center gap-2 mb-2 animate-in fade-in">
+            <AlertCircle className="h-4 w-4 text-destructive" />
+            <span className="text-destructive text-xs font-black uppercase tracking-widest text-center">
+              Stripe Minimum: Add items to reach ₹50
+            </span>
+          </div>
+        )}
+
         <Button
           onClick={handlePayment}
-          disabled={!totalAmount || totalAmount <= 0 || loading}
+          disabled={!totalAmount || totalAmount <= 0 || (paymentMethod === 'card' && totalAmount < 50) || loading}
           className="w-full h-16 rounded-2xl text-lg font-black uppercase tracking-widest shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 group"
         >
           {loading ? (
