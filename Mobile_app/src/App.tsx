@@ -18,6 +18,7 @@ import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import BarcodeScanner from "./pages/BarcodeScanner";
+import VisionScan from "./pages/VisionScan";
 import CampusRewards from "./pages/CampusRewards";
 import NotFound from "./pages/NotFound";
 import Payment from "./pages/Payment";
@@ -86,7 +87,7 @@ const GlobalSplash = ({ children }: { children: React.ReactNode }) => {
                 className="text-2xl font-black text-foreground uppercase tracking-tight"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
-                <span className="font-bold text-xs text-foreground uppercase tracking-widest">Nutrisense</span>
+                <span className="font-bold text-xs text-foreground uppercase tracking-widest">Nutri sense</span>
               </h1>
               <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase opacity-70">Initializing Health Ecosystem</p>
             </div>
@@ -170,6 +171,14 @@ const App = () => (
                               element={
                                 <ProtectedRoute>
                                   <Payment />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/vision-scan"
+                              element={
+                                <ProtectedRoute allowGuest>
+                                  <VisionScan />
                                 </ProtectedRoute>
                               }
                             />
