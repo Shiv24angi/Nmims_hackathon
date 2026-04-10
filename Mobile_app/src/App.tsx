@@ -22,6 +22,7 @@ import CampusRewards from "./pages/CampusRewards";
 import NotFound from "./pages/NotFound";
 import Payment from "./pages/Payment";
 import Success from "./pages/Success";
+import Onboarding from "./pages/Onboarding";
 
 
 const queryClient = new QueryClient();
@@ -130,6 +131,14 @@ const App = () => (
                               element={
                                 <ProtectedRoute allowGuest>
                                   <FoodLibrary />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/setup"
+                              element={
+                                <ProtectedRoute allowGuest>
+                                  <Onboarding />
                                 </ProtectedRoute>
                               }
                             />

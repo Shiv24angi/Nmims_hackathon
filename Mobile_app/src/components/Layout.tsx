@@ -45,7 +45,7 @@ const leftNav = [
 
 const rightNav = [
   { path: "/payment", icon: Wallet, label: "Wallet" },
-  { path: "/profile", icon: Settings, label: "Settings" },
+  { path: "/profile", icon: Settings, label: "Edit Profile" },
 ];
 
 export const Layout = ({ children }: { children: ReactNode }) => {

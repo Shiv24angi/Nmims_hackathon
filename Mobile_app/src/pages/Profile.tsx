@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LogOut, Bell, Plus, X, Calculator, RefreshCw } from "lucide-react";
+import { LogOut, Bell, Plus, X, Calculator, RefreshCw, Check } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -49,10 +49,15 @@ const Profile = () => {
     caffeine_intake: "moderate",
     monthly_budget: 5000,
     cycle_tracking_enabled: false,
+    period_cycle_length: 28,
+    last_period_date: new Date().toISOString().split('T')[0],
+    period_length: 5,
   });
 
   const [supplements, setSupplements] = useState<Supplement[]>([]);
   const [newSupplementName, setNewSupplementName] = useState("");
+  const [showMacros, setShowMacros] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (settings) {
@@ -87,6 +92,12 @@ const Profile = () => {
         monthly_budget: Number(settings.monthly_budget) || 5000,
         // @ts-ignore
         cycle_tracking_enabled: settings.cycle_tracking_enabled ?? false,
+        // @ts-ignore
+        period_cycle_length: Number((settings as any).period_cycle_length) || 28,
+        // @ts-ignore
+        last_period_date: (settings as any).last_period_date || new Date().toISOString().split('T')[0],
+        // @ts-ignore
+        period_length: Number((settings as any).period_length) || 5,
       });
       setSupplements((settings.supplements as unknown as Supplement[]) || []);
     }
@@ -121,10 +132,16 @@ const Profile = () => {
     updateSettings.mutate(
       {
         ...form,
+        profile_completed: true,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       },
       {
-        onSuccess: () => toast({ title: "Settings saved!" }),
+        onSuccess: () => {
+          localStorage.setItem('hide_profile_banner', 'true');
+          toast({ title: "Profile updated!" });
+          setIsSaved(true);
+          setTimeout(() => setIsSaved(false), 2000);
+        },
       },
     );
   };
@@ -377,16 +394,56 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-2 border-t border-border/40">
-          <div className="space-y-0.5">
-            <span className="text-card-foreground font-medium text-sm">Menstrual Cycle Intelligence</span>
-            <p className="text-[10px] text-muted-foreground">Adjust recommendations based on cycle phase.</p>
+        {form.gender === "female" && (
+          <div className="pt-2 border-t border-border/40 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <span className="text-card-foreground font-medium text-sm">Menstrual Cycle Intelligence</span>
+                <p className="text-[10px] text-muted-foreground">Adjust recommendations based on cycle phase.</p>
+              </div>
+              <Switch
+                checked={form.cycle_tracking_enabled}
+                onCheckedChange={(c) => setForm((prev) => ({ ...prev, cycle_tracking_enabled: c }))}
+              />
+            </div>
+            
+            {form.cycle_tracking_enabled && (
+             <div className="pt-2 border-t border-border/20 space-y-3">
+                 <div className="space-y-1.5">
+                   <Label className="text-xs text-muted-foreground">Period Start Date</Label>
+                   <Input 
+                     type="date"
+                     value={form.last_period_date}
+                     onChange={(e) => setForm({ ...form, last_period_date: e.target.value })}
+                     className="h-9 w-full"
+                   />
+                 </div>
+
+                 <div className="grid grid-cols-2 gap-3">
+                   <div className="space-y-1.5">
+                     <Label className="text-xs text-muted-foreground">Period Duration (Days)</Label>
+                     <Input 
+                       type="number"
+                       value={form.period_length}
+                       onChange={(e) => setForm({ ...form, period_length: Number(e.target.value) })}
+                       className="h-9"
+                     />
+                   </div>
+                   
+                   <div className="space-y-1.5">
+                     <Label className="text-xs text-muted-foreground">Avg Cycle Length</Label>
+                     <Input 
+                       type="number"
+                       value={form.period_cycle_length}
+                       onChange={(e) => setForm({ ...form, period_cycle_length: Number(e.target.value) })}
+                       className="h-9"
+                     />
+                   </div>
+                 </div>
+             </div>
+            )}
           </div>
-          <Switch
-            checked={form.cycle_tracking_enabled}
-            onCheckedChange={(c) => setForm((prev) => ({ ...prev, cycle_tracking_enabled: c }))}
-          />
-        </div>
+        )}
       </div>
 
       {/* Budget Tracking */}
@@ -408,12 +465,20 @@ const Profile = () => {
 
       {/* Macro Targets */}
       <div className="bg-card rounded-xl p-4 space-y-3">
-        <h2 className="text-sm font-semibold text-card-foreground uppercase tracking-wide">
-          Macro Targets
-        </h2>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-xs text-muted-foreground">Calories</label>
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-card-foreground uppercase tracking-wide">
+            Custom Macro Targets
+          </h2>
+          <Switch
+            checked={showMacros}
+            onCheckedChange={setShowMacros}
+          />
+        </div>
+        
+        {showMacros && (
+          <div className="grid grid-cols-2 gap-3 pt-2">
+            <div>
+              <label className="text-xs text-muted-foreground">Calories</label>
             <Input
               type="number"
               value={form.calorie_target}
@@ -465,6 +530,7 @@ const Profile = () => {
             />
           </div>
         </div>
+        )}
       </div>
 
       {/* Supplements Management */}
@@ -622,8 +688,22 @@ const Profile = () => {
         )}
       </div>
 
-      <Button onClick={handleSave} className="w-full">
-        Save Settings
+      <Button 
+        onClick={handleSave} 
+        disabled={updateSettings.isPending || isSaved}
+        className={`w-full transition-all duration-300 ${
+          isSaved ? "bg-green-500 hover:bg-green-600 text-white" : ""
+        }`}
+      >
+        {isSaved ? (
+          <>
+            <Check className="h-5 w-5 mr-2 animate-in zoom-in" /> Details Saved
+          </>
+        ) : updateSettings.isPending ? (
+          "Saving..."
+        ) : (
+          "Save Details"
+        )}
       </Button>
 
       <Button variant="outline" className="w-full" onClick={signOut}>

@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const MacroRing = ({ label, current, target, color, isSelected, onClick }: { 
   label: string; current: number; target: number; color: string; isSelected: boolean; onClick: () => void 
@@ -64,6 +65,10 @@ const Index = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const strictHide = localStorage.getItem('hide_profile_banner') === 'true';
+  const needsOnboarding = !strictHide && settings && !(settings as any).profile_completed;
 
   const [expandedMacro, setExpandedMacro] = useState<string | null>(null);
   const [showCopy, setShowCopy] = useState(false);
@@ -283,6 +288,20 @@ const Index = () => {
         <div className="px-1">
           <CampusRewardsCard />
         </div>
+
+        {needsOnboarding && (
+          <div className="px-1 py-1">
+            <div className="bg-gradient-to-r from-primary/10 to-orange-500/10 rounded-3xl p-4 border border-primary/20 flex items-center justify-between shadow-sm">
+               <div className="space-y-0.5">
+                 <h2 className="text-sm font-black text-primary uppercase tracking-tight">Complete Profile</h2>
+                 <p className="text-[10px] text-muted-foreground italic mr-2">Add mobile, goals & health stats to unlock personalized AI plans.</p>
+               </div>
+               <Button size="sm" onClick={() => navigate('/setup')} className="bg-primary text-primary-foreground text-xs font-bold shadow-lg rounded-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all w-24 shrink-0">
+                 START
+               </Button>
+            </div>
+          </div>
+        )}
 
         {/* AI Recommendations */}
         <div className="px-1 space-y-4">
