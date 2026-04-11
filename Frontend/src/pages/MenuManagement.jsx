@@ -12,6 +12,31 @@ const MenuManagement = () => {
 
   useEffect(() => {
     fetchMenu();
+
+    // Set up real-time subscription
+    const subscription = supabase
+      .channel('menu_items_channel')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'food_items' },
+        (payload) => {
+          console.log('Real-time menu update:', payload);
+          if (payload.eventType === 'INSERT') {
+            setMenu((prev) => [...prev, payload.new]);
+          } else if (payload.eventType === 'UPDATE') {
+            setMenu((prev) =>
+              prev.map((item) => (item.food_id === payload.new.food_id ? payload.new : item))
+            );
+          } else if (payload.eventType === 'DELETE') {
+            setMenu((prev) => prev.filter((item) => item.food_id !== payload.old.food_id));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
   }, []);
 
   const fetchMenu = async () => {
@@ -42,6 +67,7 @@ const MenuManagement = () => {
       carbs: Number(baseData.carbs) || 0,
       fats: Number(baseData.fats) || 0,
       is_available: baseData.is_available ?? true,
+      image_url: baseData.image_url || '',
     };
 
     try {
@@ -71,7 +97,7 @@ const MenuManagement = () => {
         console.warn("Local API sync failed (non-critical):", localErr.message);
       }
 
-      await fetchMenu();
+      // await fetchMenu(); // Removed as real-time subscription handles this
       setShowModal(false);
     } catch (err) {
       console.error("Save failed:", err);
@@ -100,7 +126,7 @@ const MenuManagement = () => {
          console.warn("Could not delete from Supabase");
       }
       // 2. Also try local API (non-critical)
-      api.delete(`/menu/${id}`).then(() => fetchMenu()).catch(() => fetchMenu());
+      api.delete(`/menu/${id}`).catch(() => {});
     }
   };
 
