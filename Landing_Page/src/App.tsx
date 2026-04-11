@@ -17,9 +17,9 @@ import {
   CheckCircle2, LogIn, Bell
 } from "lucide-react";
 
-const nutrisenseTestimonials = [
+const smartrasoiTestimonials = [
   {
-    text: "NutriSense completely changed how I eat on campus. The AI suggestions are surprisingly accurate and I've lost 4kg without trying hard!",
+    text: "SmartRasoi completely changed how I eat on campus. The AI suggestions are surprisingly accurate and I've lost 4kg without trying hard!",
     image: "https://randomuser.me/api/portraits/women/44.jpg",
     name: "Priya Sharma",
     role: "CS Student, Year 2",
@@ -37,7 +37,7 @@ const nutrisenseTestimonials = [
     role: "Medical Student",
   },
   {
-    text: "Managing the cafeteria used to be chaotic. With NutriSense analytics, we cut food waste by nearly 30% in the first month.",
+    text: "Managing the cafeteria used to be chaotic. With SmartRasoi analytics, we cut food waste by nearly 30% in the first month.",
     image: "https://randomuser.me/api/portraits/men/55.jpg",
     name: "Suresh Kumar",
     role: "Cafeteria Manager",
@@ -49,7 +49,7 @@ const nutrisenseTestimonials = [
     role: "MBA Student",
   },
   {
-    text: "The calorie and macro tracking is seamless. I don't have to manually log anything — NutriSense does it automatically at checkout.",
+    text: "The calorie and macro tracking is seamless. I don't have to manually log anything — SmartRasoi does it automatically at checkout.",
     image: "https://randomuser.me/api/portraits/women/22.jpg",
     name: "Divya Nair",
     role: "Nutrition & Dietetics Student",
@@ -74,9 +74,9 @@ const nutrisenseTestimonials = [
   },
 ];
 
-const firstColumnTestimonials = nutrisenseTestimonials.slice(0, 3);
-const secondColumnTestimonials = nutrisenseTestimonials.slice(3, 6);
-const thirdColumnTestimonials = nutrisenseTestimonials.slice(6, 9);
+const firstColumnTestimonials = smartrasoiTestimonials.slice(0, 3);
+const secondColumnTestimonials = smartrasoiTestimonials.slice(3, 6);
+const thirdColumnTestimonials = smartrasoiTestimonials.slice(6, 9);
 
 const navItems = [
   { name: 'Home', url: '#', icon: Home },
@@ -111,7 +111,7 @@ function App() {
 
       <section className="py-24 px-6 bg-white" id="about">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-[#1C4D35]">Welcome to NutriSense</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-[#1C4D35]">Welcome to SmartRasoi</h2>
           <p className="text-lg text-[#1C4D35]/80 leading-relaxed font-medium">
             We use data-driven AI to suggest meals that align with your body metrics and daily schedule. This isn't just a food menu—it's a personalized health system directly integrated into your campus cafeteria.
           </p>
@@ -324,7 +324,7 @@ function ExperienceScreenSwitcher() {
             </div>
             <div className="text-sm font-bold text-white">Analyzing Biometrics...</div>
           </div>
-          
+
           <div className="space-y-4 px-1">
             {[1, 2, 3].map(i => (
               <div key={i} className="space-y-1.5">
@@ -338,18 +338,18 @@ function ExperienceScreenSwitcher() {
                   transition={{ delay: i * 0.2, duration: 1 }}
                   className="h-1.5 bg-[#1C4D35]/10 rounded-full overflow-hidden"
                 >
-                  <motion.div 
+                  <motion.div
                     initial={{ x: "-100%" }}
                     animate={{ x: "0%" }}
                     transition={{ delay: i * 0.2 + 0.5, duration: 0.8 }}
-                    className="h-full bg-moss w-3/4" 
+                    className="h-full bg-moss w-3/4"
                   />
                 </motion.div>
               </div>
             ))}
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
@@ -373,7 +373,7 @@ function ExperienceScreenSwitcher() {
               { name: "Kadhai Paneer", price: 160, calories: 620 },
               { name: "Fruit Salad", price: 60, calories: 210 }
             ]).map((item, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -409,7 +409,7 @@ function ExperienceScreenSwitcher() {
       content: (
         <div className="flex flex-col h-full bg-forest rounded-[2rem] p-6 text-white overflow-hidden relative">
           <div className="absolute top-0 right-0 w-32 h-32 bg-moss/10 rounded-full blur-3xl -mr-16 -mt-16" />
-          
+
           <div className="relative z-10 text-center mb-8">
             <div className="text-xs font-bold text-moss uppercase tracking-widest mb-2">Daily Progress</div>
             <div className="text-6xl font-black mb-1">92<span className="text-2xl text-moss">%</span></div>
@@ -423,11 +423,11 @@ function ExperienceScreenSwitcher() {
                 <span>520/2200</span>
               </div>
               <div className="h-2.5 bg-white/10 rounded-full overflow-hidden p-0.5">
-                <motion.div 
+                <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "24%" }}
                   transition={{ duration: 1.5, ease: "easeOut" }}
-                  className="h-full bg-moss rounded-full" 
+                  className="h-full bg-moss rounded-full"
                 />
               </div>
             </div>
@@ -444,7 +444,7 @@ function ExperienceScreenSwitcher() {
             </div>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -480,7 +480,7 @@ function ExperienceScreenSwitcher() {
             initial={{ opacity: 0, y: 10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            transition={{ 
+            transition={{
               type: "spring",
               stiffness: 300,
               damping: 30

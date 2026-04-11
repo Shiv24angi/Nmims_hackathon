@@ -1,4 +1,4 @@
-# AI-Powered Smart Cafeteria System 🥗💳
+# AI-Powered Smart Rasoi System 🥗💳
 ### Health-Aware Food Selection & Seamless Payments
 
 [![Real-time Sync](https://img.shields.io/badge/Real--time-Supabase-blueviolet)](https://supabase.com)
@@ -6,7 +6,7 @@
 [![Framework](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61dafb)](https://vitejs.dev)
 
 ## 📌 1. Use Case Title
-**AI-Powered Smart Cafeteria System for Health-Aware Food Selection and Seamless Payments.**
+**AI-Powered Smart Rasoi System for Health-Aware Food Selection and Seamless Payments.**
 
 ## 🚀 2. Problem Statement
 University students frequently make quick food purchases at campus cafeterias without access to clear nutritional or calorie information. This lack of visibility often leads to unhealthy food choices, poor energy management, and reduced academic focus over time. 
@@ -14,7 +14,7 @@ University students frequently make quick food purchases at campus cafeterias wi
 Current cafeteria systems mainly focus on billing and payment transactions, with little or no intelligence to guide students toward healthier dietary decisions. There is a need for an AI-driven solution that integrates food recognition, nutritional analysis, personalization, and digital payments into a single, seamless experience.
 
 ## 🎯 3. Objectives
-Our Smart Cafeteria System is designed to:
+Our Smart Rasoi System is designed to:
 *   **Informed Choices**: Help students make healthier food decisions through transparent data.
 *   **Real-time Insights**: Provide instant calorie and nutrition breakdowns for every menu item.
 *   **Cashless Workflow**: Integrate fast, secure digital payments (Stripe/UPI).
@@ -89,4 +89,4 @@ The project is built on a modern, decoupled architecture ensuring scalability an
 - [x] **Project Documentation & User Journey Walkthrough**
 
 ---
-*Created for the NMIMS Hackathon - Smart Cafeteria Challenge.*
+*Created for the NMIMS Hackathon - Smart Rasoi Challenge.*

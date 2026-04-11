@@ -1,7 +1,7 @@
 {
   "name": "cafeteria-backend",
   "version": "1.0.0",
-  "description": "Smart Cafeteria System Backend",
+  "description": "Smart Rasoi System Backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
