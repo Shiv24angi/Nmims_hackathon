@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => ({
     VitePWA({
       registerType: "autoUpdate",
       devOptions: { enabled: false },
-      includeAssets: ["nutrisense-logo.png"],
+      includeAssets: ["smartrasoi-logo.png"],
       manifest: {
         name: "Nutri Sense — Student Health & Wallet",
         short_name: "Nutri Sense",
@@ -24,8 +24,8 @@ export default defineConfig(({ mode }) => ({
         display: "standalone",
         start_url: "/",
         icons: [
-          { src: "/nutrisense-logo.png", sizes: "192x192", type: "image/png" },
-          { src: "/nutrisense-logo.png", sizes: "512x512", type: "image/png" },
+          { src: "/smartrasoi-logo.png", sizes: "192x192", type: "image/png" },
+          { src: "/smartrasoi-logo.png", sizes: "512x512", type: "image/png" },
         ],
       },
       workbox: {

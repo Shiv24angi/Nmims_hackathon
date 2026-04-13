@@ -128,7 +128,7 @@ export const ShareProgressCard = forwardRef<HTMLDivElement, ShareProgressCardPro
 
         {/* Footer */}
         <div className="text-center z-10 opacity-30">
-          <p className="text-2xl font-black uppercase tracking-[0.8em] text-white">NUTRISENSE.APP</p>
+          <p className="text-2xl font-black uppercase tracking-[0.8em] text-white">SMARTRASOI.APP</p>
         </div>
       </div>
     );
