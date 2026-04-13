@@ -137,7 +137,7 @@ const Auth = () => {
             <GraduationCap className="h-12 w-12 text-primary" />
           </div>
           <h1 className="text-4xl font-black text-foreground tracking-tight text-center leading-none uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Student<br />Portal
+            SmartRasoi
           </h1>
           <div className="bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10">
             <p className="text-primary text-xs font-bold uppercase tracking-widest">Campus Ecosystem</p>
