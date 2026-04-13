@@ -46,7 +46,7 @@ const leftNav = [
 
 const rightNav = [
   { path: "/payment", icon: Wallet, label: "Wallet" },
-  { path: "/profile", icon: Settings, label: "Edit Profile" },
+  { path: "/profile", icon: Settings, label: "Edit Profile", tour: "profile-nav" },
 ];
 
 export const Layout = ({ children }: { children: ReactNode }) => {
@@ -604,19 +604,21 @@ Android - Browser Menu > Add to Homescreen > Install`;
             onClick={() => navigate("/vision-scan")}
             className="flex flex-col items-center justify-end pb-1 relative z-20"
             aria-label="AI Vision Scan"
+            data-tour="add-meal-button"
           >
             <div className="-mt-5 flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/40 transition-all active:scale-95 hover:brightness-110">
               <Camera className="h-6 w-6" />
             </div>
           </button>
 
-          {rightNav.map(({ path, icon: Icon, label }) => {
+          {rightNav.map(({ path, icon: Icon, label, tour }) => {
             const active = location.pathname === path;
-            const isSettings = label === "Settings";
+            const isSettings = label === "Edit Profile";
             return (
               <Link
                 key={path}
                 to={path}
+                data-tour={tour}
                 className={`flex flex-col items-center gap-0.5 py-1 rounded-lg transition-colors relative ${
                   active
                     ? "text-primary"

@@ -192,7 +192,7 @@ const CafeMenu = () => {
           budget: parseFloat(budget) || 400
         };
         
-        const cafeteria_menu: MealMenuItem[] = MOCK_FOODS.map(f => ({
+        const cafeteria_menu: MealMenuItem[] = foods.filter(f => f.source === 'preset').map(f => ({
             id: f.id,
             name: f.name,
             calories: f.calories,
@@ -320,7 +320,7 @@ const CafeMenu = () => {
 
 
   const filtered = useMemo(() => {
-    const displayFoods = selectedSource === "preset" ? MOCK_FOODS : foods;
+    const displayFoods = foods;
     
     return displayFoods.filter((f) => {
       const matchesSearch = f.name.toLowerCase().includes(search.toLowerCase());
@@ -334,7 +334,7 @@ const CafeMenu = () => {
 
   const currentFood = useMemo(() => {
     if (!editId) return null;
-    return (selectedSource === "preset" ? MOCK_FOODS : foods).find(f => f.id === editId) || null;
+    return foods.find(f => f.id === editId) || null;
   }, [editId, selectedSource, foods]);
 
   const handleGenerateAICombo = async () => {

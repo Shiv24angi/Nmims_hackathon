@@ -61,6 +61,7 @@ export const TutorialFlow = ({ onComplete }: { onComplete: () => void }) => {
   const [spotlightRect, setSpotlightRect] = useState<DOMRect | null>(null);
   
   const { user } = useAuth();
+  const { updateSettings } = useSettings();
   const { toast } = useToast();
 
   // Handle interactive clicks
@@ -124,27 +125,24 @@ export const TutorialFlow = ({ onComplete }: { onComplete: () => void }) => {
       });
 
       if (user) {
-        // @ts-ignore - The database columns might not be in the generated types yet but we need to update them
-        await supabase.from('user_settings').update({
+        updateSettings.mutate({
           tutorial_completed: true,
           calorie_target: targets.calories,
           protein_target: targets.protein,
           carb_target: targets.carbs,
           fat_target: targets.fats,
           nut3lla_tips_enabled: true,
-          // Extra stats
           gender,
           weight_kg: w,
           height_cm: h,
           age: a,
           activity_level: act,
-          goal
-        }).eq('user_id', user.id);
+          goal,
+          profile_completed: true
+        });
       } else {
-        // For guest mode, save to localStorage
-        const guestSettings = JSON.parse(localStorage.getItem('portal_guest_settings') || '{}');
-        localStorage.setItem('portal_guest_settings', JSON.stringify({
-          ...guestSettings,
+        // For guest mode
+        updateSettings.mutate({
           tutorial_completed: true,
           calorie_target: targets.calories,
           protein_target: targets.protein,
@@ -156,7 +154,7 @@ export const TutorialFlow = ({ onComplete }: { onComplete: () => void }) => {
           age: a,
           activity_level: act,
           goal
-        }));
+        });
       }
       toast({ title: "Health Profile Saved! 🎓" });
       onComplete();
@@ -169,10 +167,7 @@ export const TutorialFlow = ({ onComplete }: { onComplete: () => void }) => {
 
   const handleSkip = async () => {
     if (user) {
-      await supabase.from('user_settings').update({ tutorial_completed: true }).eq('user_id', user.id);
-    } else {
-      const guestSettings = JSON.parse(localStorage.getItem('portal_guest_settings') || '{}');
-      localStorage.setItem('portal_guest_settings', JSON.stringify({ ...guestSettings, tutorial_completed: true }));
+      updateSettings.mutate({ tutorial_completed: true });
     }
     onComplete();
   };

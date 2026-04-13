@@ -11,10 +11,10 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    VitePWA({
+    /* VitePWA({
       registerType: "autoUpdate",
       devOptions: { enabled: false },
-      includeAssets: ["smartrasoi-logo.png"],
+      includeAssets: ["nutrisense-logo.png"],
       manifest: {
         name: "Nutri Sense — Student Health & Wallet",
         short_name: "Nutri Sense",
@@ -24,8 +24,8 @@ export default defineConfig(({ mode }) => ({
         display: "standalone",
         start_url: "/",
         icons: [
-          { src: "/smartrasoi-logo.png", sizes: "192x192", type: "image/png" },
-          { src: "/smartrasoi-logo.png", sizes: "512x512", type: "image/png" },
+          { src: "/nutrisense-logo.png", sizes: "192x192", type: "image/png" },
+          { src: "/nutrisense-logo.png", sizes: "512x512", type: "image/png" },
         ],
       },
       workbox: {
@@ -39,15 +39,19 @@ export default defineConfig(({ mode }) => ({
           },
         ],
       },
-    }),
+    }), */
   ],
+  optimizeDeps: {
+    esbuildOptions: {
+      // @ts-ignore
+      jsx: 'automatic'
+    }
+  },
   resolve: {
     alias: { "@": path.resolve(__dirname, "./src") },
     dedupe: [
       "react",
       "react-dom",
-      "react/jsx-runtime",
-      "react/jsx-dev-runtime",
       "@tanstack/react-query",
       "@tanstack/query-core",
     ],

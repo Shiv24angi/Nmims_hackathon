@@ -80,6 +80,7 @@ export default function Onboarding() {
       {
         ...form,
         profile_completed: true,
+        tutorial_completed: true,
         calorie_target: targets.calories,
         protein_target: targets.protein,
         carb_target: targets.carbs,

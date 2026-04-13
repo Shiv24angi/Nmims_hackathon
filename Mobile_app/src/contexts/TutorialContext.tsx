@@ -21,10 +21,12 @@ export const TutorialProvider = ({ children }: { children: React.ReactNode }) =>
 
   // Initialize from settings
   useEffect(() => {
-    if (settings && settings.tutorial_completed === false) {
+    // If we have settings and tutorial isn't explicitly true, and we aren't already active
+    if (settings && settings.tutorial_completed !== true && !isActive) {
+      console.log("Starting tutorial automatically for new/uninitialized user");
       setIsActive(true);
     }
-  }, [settings]);
+  }, [settings, isActive]);
 
   const setNextStep = useCallback(() => {
     // Stage 1: Dashboard (Done at step 1) -> Navigate to Foods

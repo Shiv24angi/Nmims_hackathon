@@ -4,7 +4,9 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const VALID_SUPABASE_KEYS = [
   "calorie_target", "carb_target", "fat_target", "protein_target", 
-  "nut3lla_tips_enabled", "tutorial_completed", "supplements", "theme", "notification_time"
+  "nut3lla_tips_enabled", "tutorial_completed", "supplements", "theme", "notification_time",
+  "age", "weight_kg", "height_cm", "gender", "goal", "activity_level", 
+  "mobile_number", "name", "allergies", "cycle_tracking_enabled", "profile_completed"
 ];
 
 export interface Supplement {
