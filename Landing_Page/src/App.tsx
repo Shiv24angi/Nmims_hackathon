@@ -288,7 +288,7 @@ function ExperienceScreenSwitcher() {
 
   React.useEffect(() => {
     // Fetch real recommendations from backend
-    fetch('http://localhost:5000/api/menu')
+    fetch('https://smartrasoi-backend-shcx.onrender.com/api/menu')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
