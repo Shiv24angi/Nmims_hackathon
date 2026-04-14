@@ -12,8 +12,7 @@ import { NavBar } from "@/components/ui/tube-light-navbar";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import {
   Home, Sparkles, BrainCircuit, TrendingUp, MessageSquare,
-  Activity, QrCode, Leaf, Droplet, UserCircle2,
-  Pointer, CreditCard, GraduationCap, Building2,
+  Activity, QrCode, Leaf, Droplet, GraduationCap, Building2,
   CheckCircle2, LogIn, Bell, Smartphone
 } from "lucide-react";
 
