@@ -27,24 +27,26 @@ export const useFoods = () => {
     queryKey: ["foods", user?.id],
     enabled: true,
     queryFn: async () => {
-      // Fetch user-defined foods
-      let userFoodsQuery = (supabase.from("foods" as any) as any).select("*");
-      if (user) {
-        userFoodsQuery = userFoodsQuery.eq("user_id", user.id);
-      } else {
-        // Just empty if no user for private foods
-        userFoodsQuery = userFoodsQuery.eq("id", "none");
-      }
-
       // Fetch official cafeteria items
       const { data: cafData, error: cafError } = await supabase
         .from("food_items")
         .select("*");
 
-      const { data: userData, error: userError } = await userFoodsQuery.order("name");
-
       if (cafError) console.error("Error fetching cafeteria items:", cafError);
-      if (userError) throw userError;
+
+      let userData = [];
+      if (user) {
+        const { data, error } = await (supabase.from("foods" as any) as any)
+          .select("*")
+          .eq("user_id", user.id)
+          .order("name");
+        
+        if (error) {
+          console.error("Error fetching user foods:", error);
+        } else {
+          userData = data || [];
+        }
+      }
 
       // Transform cafeteria items to match Food interface
       const translatedCaf: Food[] = (cafData || []).map(item => ({
